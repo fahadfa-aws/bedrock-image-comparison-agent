@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Breakpoints Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+    }
+    .test-section h2 {
+      color: #667eea;
+      margin-top: 0;
+    }
+    .breakpoint-indicator {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: #667eea;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      z-index: 9999;
+    }
+    .test-grid {
+      display: grid;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .test-item {
+      background: #f0f4ff;
+      padding: 15px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    
+    /* Mobile */
+    @media (max-width: 768px) {
+      .breakpoint-indicator::before {
+        content: '📱 Mobile (< 768px)';
+      }
+      .test-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Tablet */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .breakpoint-indicator::before {
+        content: '📱 Tablet (768px - 1024px)';
+      }
+      .test-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    /* Desktop */
+    @media (min-width: 1025px) {
+      .breakpoint-indicator::before {
+        content: '🖥️ Desktop (> 1024px)';
+      }
+      .test-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    .nav-tabs-test {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .nav-tab-test {
+      padding: 0.75rem 2rem;
+      background: #667eea;
+      color: white;
+      border-radius: 8px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    @media (max-width: 768px) {
+      .nav-tabs-test {
+        width: 100%;
+      }
+      .nav-tab-test {
+        flex: 1;
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="breakpoint-indicator"></div>
+  
+  <h1>Responsive Breakpoints Test</h1>
+  
+  <div class="test-section">
+    <h2>Navigation Tabs Test</h2>
+    <p>On mobile, tabs should expand to fill width equally. On desktop, they should be centered.</p>
+    <div class="nav-tabs-test">
+      <div class="nav-tab-test">Generate</div>
+      <div class="nav-tab-test">Gallery</div>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Grid Layout Test</h2>
+    <p>Mobile: 1 column | Tablet: 2 columns | Desktop: 3 columns</p>
+    <div class="test-grid">
+      <div class="test-item">Item 1</div>
+      <div class="test-item">Item 2</div>
+      <div class="test-item">Item 3</div>
+      <div class="test-item">Item 4</div>
+      <div class="test-item">Item 5</div>
+      <div class="test-item">Item 6</div>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Touch-Friendly Buttons Test</h2>
+    <p>All buttons should be at least 44px tall for easy tapping</p>
+    <button style="min-height: 44px; padding: 0.75rem 1.5rem; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer;">
+      Primary Button (44px min)
+    </button>
+  </div>
+  
+  <div class="test-section">
+    <h2>Testing Instructions</h2>
+    <ol>
+      <li>Resize your browser window to test different breakpoints</li>
+      <li>Check the indicator in the top-right corner</li>
+      <li>Verify navigation tabs behavior on mobile</li>
+      <li>Verify grid layouts change appropriately</li>
+      <li>Test on actual mobile devices if possible</li>
+    </ol>
+  </div>
+</body>
+</html>

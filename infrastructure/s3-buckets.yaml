@@ -1,0 +1,174 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'S3 Buckets for Bedrock Image Comparison Agent - Multi-Region Setup'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+    Description: Environment name
+
+Resources:
+  # S3 Bucket in us-east-1
+  ImageBucketUSEast1:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'bedrock-image-comparison-us-east-1-${AWS::AccountId}-${Environment}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: TransitionToIA
+            Status: Enabled
+            Transitions:
+              - TransitionInDays: 30
+                StorageClass: STANDARD_IA
+              - TransitionInDays: 90
+                StorageClass: GLACIER
+          - Id: DeleteOldVersions
+            Status: Enabled
+            NoncurrentVersionExpirationInDays: 30
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - HEAD
+            AllowedOrigins:
+              - 'http://localhost:5173'
+              - 'http://localhost:3000'
+            ExposedHeaders:
+              - ETag
+            MaxAge: 3000
+      Tags:
+        - Key: Application
+          Value: BedrockImageComparison
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Region
+          Value: us-east-1
+
+  # S3 Bucket Policy for us-east-1
+  ImageBucketPolicyUSEast1:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ImageBucketUSEast1
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: '*'
+            Action: 's3:*'
+            Resource:
+              - !GetAtt ImageBucketUSEast1.Arn
+              - !Sub '${ImageBucketUSEast1.Arn}/*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': 'false'
+
+  # S3 Bucket in us-west-2 (requires separate stack deployment)
+  ImageBucketUSWest2:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'bedrock-image-comparison-us-west-2-${AWS::AccountId}-${Environment}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: TransitionToIA
+            Status: Enabled
+            Transitions:
+              - TransitionInDays: 30
+                StorageClass: STANDARD_IA
+              - TransitionInDays: 90
+                StorageClass: GLACIER
+          - Id: DeleteOldVersions
+            Status: Enabled
+            NoncurrentVersionExpirationInDays: 30
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+              - HEAD
+            AllowedOrigins:
+              - 'http://localhost:5173'
+              - 'http://localhost:3000'
+            ExposedHeaders:
+              - ETag
+            MaxAge: 3000
+      Tags:
+        - Key: Application
+          Value: BedrockImageComparison
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Region
+          Value: us-west-2
+
+  # S3 Bucket Policy for us-west-2
+  ImageBucketPolicyUSWest2:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ImageBucketUSWest2
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: '*'
+            Action: 's3:*'
+            Resource:
+              - !GetAtt ImageBucketUSWest2.Arn
+              - !Sub '${ImageBucketUSWest2.Arn}/*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': 'false'
+
+Outputs:
+  BucketNameUSEast1:
+    Description: Name of the S3 bucket in us-east-1
+    Value: !Ref ImageBucketUSEast1
+    Export:
+      Name: !Sub '${AWS::StackName}-BucketUSEast1'
+
+  BucketArnUSEast1:
+    Description: ARN of the S3 bucket in us-east-1
+    Value: !GetAtt ImageBucketUSEast1.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-BucketArnUSEast1'
+
+  BucketNameUSWest2:
+    Description: Name of the S3 bucket in us-west-2
+    Value: !Ref ImageBucketUSWest2
+    Export:
+      Name: !Sub '${AWS::StackName}-BucketUSWest2'
+
+  BucketArnUSWest2:
+    Description: ARN of the S3 bucket in us-west-2
+    Value: !GetAtt ImageBucketUSWest2.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-BucketArnUSWest2'
