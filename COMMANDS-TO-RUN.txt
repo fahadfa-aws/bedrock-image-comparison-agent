@@ -1,0 +1,64 @@
+═══════════════════════════════════════════════════════════════
+  BEDROCK IMAGE COMPARISON AGENT - GITHUB UPLOAD COMMANDS
+═══════════════════════════════════════════════════════════════
+
+✅ STEP 1: Create Repository on GitHub
+───────────────────────────────────────────────────────────────
+
+1. Open your browser and go to:
+   https://github.com/new
+
+2. Fill in the form:
+   Repository name: bedrock-image-comparison-agent
+   Description: Compare AWS Bedrock image generation models (Nova Canvas, Stability AI) with intelligent prompt optimization using Claude Sonnet 4.5
+   Visibility: Public (recommended)
+   
+3. IMPORTANT: Do NOT check any boxes
+   ☐ Add a README file
+   ☐ Add .gitignore
+   ☐ Choose a license
+
+4. Click "Create repository"
+
+
+✅ STEP 2: Push Your Code
+───────────────────────────────────────────────────────────────
+
+Copy and paste these commands into your terminal:
+
+cd bedrock-image-comparison-agent
+git remote add origin https://github.com/fahadfa-aws/bedrock-image-comparison-agent.git
+git push -u origin main
+
+
+That's it! Your code will be uploaded to GitHub.
+
+
+✅ STEP 3: Verify Upload
+───────────────────────────────────────────────────────────────
+
+Visit: https://github.com/fahadfa-aws/bedrock-image-comparison-agent
+
+Check:
+✓ .env file is NOT visible (protected)
+✓ .env.example IS visible with placeholders
+✓ README shows credentials warning at top
+✓ All source code is present
+
+
+✅ OPTIONAL: Add Topics
+───────────────────────────────────────────────────────────────
+
+On your repository page:
+1. Click the ⚙️ gear icon next to "About"
+2. Add these topics:
+   aws, bedrock, image-generation, ai, claude, stability-ai, 
+   nova-canvas, react, typescript, nodejs
+
+
+═══════════════════════════════════════════════════════════════
+  YOUR REPOSITORY WILL BE LIVE AT:
+  https://github.com/fahadfa-aws/bedrock-image-comparison-agent
+═══════════════════════════════════════════════════════════════
+
+Questions? See FINAL-UPLOAD-STEPS.md for detailed instructions.
