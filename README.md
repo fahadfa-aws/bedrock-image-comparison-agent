@@ -1016,14 +1016,14 @@ The gallery is fully portable:
 
 ## Cost Estimation
 
-Approximate costs per image generation (as of 2024):
+Approximate costs per image generation (as of 2025):
 
 | Model | Cost per Image |
 |-------|----------------|
 | Amazon Nova Canvas | $0.04 |
-| Stability SDXL | $0.04 |
-| Stability Core | $0.03 |
-| Stability Ultra | $0.08 |
+| Stability 3.5 Large | $0.08 |
+| Stability Core | $0.04 |
+| Stability Ultra | $0.14 |
 | Claude Sonnet 4.5 (optimization) | ~$0.01 |
 
 **Example**: Comparing 4 models costs approximately $0.20 per prompt (including optimization).
